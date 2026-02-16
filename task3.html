@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang=3D"en">
+
+<head>
+    <meta charset=3D"UTF-8">
+    <meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=
+=3D1.0">
+    <title>Tic Tac Toe Web Application</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: skyblue;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 40px;
+            font-size: 40px;
+        }
+
+        .container {
+            width: 320px;
+            margin: 40px auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .box {
+            width: 100px;
+            height: 100px;
+            background: blue;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .box:hover {
+            background: blue;
+        }
+
+        button {
+            padding: 12px 28px;
+            margin-top: 20px;
+            font-size: 18px;
+            border: none;
+            background: blue;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: skyblue;
+        }
+
+        #status {
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Tic-Tac-Toe Game</h1>
+
+    <div id=3D"status">Player X's Turn</div>
+
+    <div class=3D"container" id=3D"grid">
+        <div class=3D"box" onclick=3D"makeMove(this, 0)"></div>
+        <div class=3D"box" onclick=3D"makeMove(this, 1)"></div>
+        <div class=3D"box" onclick=3D"makeMove(this, 2)"></div>
+        <div class=3D"box" onclick=3D"makeMove(this, 3)"></div>
+        <div class=3D"box" onclick=3D"makeMove(this, 4)"></div>
+        <div class=3D"box" onclick=3D"makeMove(this, 5)"></div>
+        <div class=3D"box" onclick=3D"makeMove(this, 6)"></div>
+        <div class=3D"box" onclick=3D"makeMove(this, 7)"></div>
+        <div class=3D"box" onclick=3D"makeMove(this, 8)"></div>
+    </div>
+
+    <button onclick=3D"resetGame()">Restart Game</button>
+
+    <script>
+        let board =3D ["", "", "", "", "", "", "", "", ""];
+        let currentPlayer =3D "X";
+        let gameOver =3D false;
+
+        const winPatterns =3D [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ];
+
+        function makeMove(cell, index) {
+            if (board[index] !=3D=3D "" || gameOver) return;
+
+            board[index] =3D currentPlayer;
+            cell.innerHTML =3D currentPlayer;
+
+            if (checkWinner()) {
+                document.getElementById("status").innerHTML =3D `Player ${
+currentPlayer} Wins! =F0=9F=8E=89`;
+                gameOver =3D true;
+                return;
+            }
+
+            if (board.every(cell =3D> cell !=3D=3D "")) {
+                document.getElementById("status").innerHTML =3D "It's a Dra=
+w!
+=F0=9F=98=90";
+                gameOver =3D true;
+                return;
+            }
+
+            currentPlayer =3D currentPlayer =3D=3D=3D "X" ? "O" : "X";
+            document.getElementById("status").innerHTML =3D `Player ${
+currentPlayer}'s Turn`;
+        }
+
+        function checkWinner() {
+            return winPatterns.some(pattern =3D> {
+                return pattern.every(index =3D> board[index] =3D=3D=3D curr=
+entPlayer
+);
+            });
+        }
+
+        function resetGame() {
+            board.fill("");
+            currentPlayer =3D "X";
+            gameOver =3D false;
+
+            document.getElementById("status").innerHTML =3D "Player X's Tur=
+n";
+
+            const boxes =3D document.querySelectorAll(".box");
+            boxes.forEach(box =3D> box.innerHTML =3D "");
+        }
+    </script>
+
+</body>
+
+</html>
